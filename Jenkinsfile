@@ -5,7 +5,7 @@ pipeline {
 
         stage('Build Backend Image') {
             steps {
-                sh 'docker build -t backend-app CC_LAB-6/backend'
+                sh 'docker build -t backend-app backend'
             }
         }
 
@@ -29,7 +29,7 @@ pipeline {
                   --network lab-net \
                   -p 80:80 nginx
                 sleep 2
-                docker cp CC_LAB-6/nginx/default.conf nginx-lb:/etc/nginx/conf.d/default.conf
+                docker cp nginx/default.conf nginx-lb:/etc/nginx/conf.d/default.conf
                 docker exec nginx-lb nginx -s reload
                 '''
             }
@@ -38,7 +38,7 @@ pipeline {
 
     post {
         failure {
-            echo "Pipeline failed. Check logs."
+            echo "Pipeline failed. Check console logs."
         }
     }
 }
